@@ -1,28 +1,81 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Loop</title>
-    <style>table th, table td {
-        padding: 5px;
-    }</style>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.6.0-1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0-1/css/bootstrap.min.css}"/>
+    <style>
+        h2 {
+            margin-top: 15px;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 320px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            padding-top: 20px;
+            margin-top: 55px;
+        }
+
+        .sidenav a {
+            background: blue;
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: white;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<table border="1">
-    <tr>
-        <th>id</th>
-        <th>first name</th>
-        <th>last name</th>
-        <th>email</th>
-    </tr>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <a class="navbar-brand" align="left">
+        <tbody>
+        <td th:text="${user.getEmail()}"></td>
+        with roles:
+        <td th:text="${user.getRolesToString()}"></td>
+        </tbody>
+    </a>
+    <td style="align: right"><a th:href="@{/logout}">Logout</a></td>
+</nav>
 
-    <tr th:each="user: ${user}">
-        <td th:utext="${user.id}">id</td>
-        <td th:utext="${user.firstName}">First name</td>
-        <td th:utext="${user.lastName}">Last name</td>
-        <td th:utext="${user.email}">Email</td>
-        <td><a th:href="@{/logout}">Logout</a></td>
+<div class="sidenav">
+    <tr th:each="r:${user.getRoles()}">
+        <a th:href="${r.getRole()}" th:text="${r.getRole()}"></a>
     </tr>
-</table>
+</div>
+
+<div class="container">
+    <h2> User information-page</h2>
+    <div class="card">
+        <div class="card-block">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>E-mail</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <td th:text="${user.getId()}"></td>
+                    <td th:text="${user.getFirstName()}"></td>
+                    <td th:text="${user.getLastName()}"></td>
+                    <td th:text="${user.getEmail()}"></td>
+                    <td th:text="${user.getRolesToString()}"></td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
